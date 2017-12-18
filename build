@@ -1,3 +1,0 @@
-#!/bin/bash
-
-ghc Main.hs Parse.hs Compute.hs
