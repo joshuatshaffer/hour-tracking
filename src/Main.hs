@@ -16,7 +16,7 @@ roundToFourths :: RealFrac a => a -> a
 roundToFourths = (/ 4) . fromIntegral . round . (* 4)
 
 showShift :: (ZonedTime,ZonedTime,String) -> String
-showShift (s,f,d) = "    " ++ showT s ++ " to " ++ showT f ++ " - " ++ d
+showShift (s,f,d) = printf "    %s to %s - %s" (showT s) (showT f) d
   where showT = formatTime defaultTimeLocale "%l:%M%P"
 
 showWorkday :: (Day,[(ZonedTime,ZonedTime,String)]) -> String

@@ -1,19 +1,10 @@
 module Compute where
 
 import Data.Time
-import Data.Time.Clock.POSIX
 import qualified Data.Map
 
 binDays :: [(ZonedTime,ZonedTime,String)] -> Data.Map.Map Day [(ZonedTime,ZonedTime,String)]
 binDays = Data.Map.fromListWith (++) . map (\(x,y)->(x,[y])) . concatMap fredric
-
-zoneTimes :: [(POSIXTime,POSIXTime,String)] -> IO [(ZonedTime,ZonedTime,String)]
-zoneTimes = mapM zoneTimes'
-  where
-    zoneTimes' (s,f,d) = do s' <- foo s
-                            f' <- foo f
-                            return (s',f',d)
-    foo = utcToLocalZonedTime . posixSecondsToUTCTime
 
 -- The end of the day as s is on.
 endOfDay :: ZonedTime -> ZonedTime

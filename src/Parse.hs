@@ -1,7 +1,8 @@
 
-module Parse (parceShifts) where
+module Parse where
 
-import Data.Time.Clock.POSIX (POSIXTime)
+import Data.Time
+import Data.Time.Clock.POSIX
 import Data.List (stripPrefix)
 import Data.Char (isSpace)
 import Control.Arrow (first)
@@ -30,3 +31,11 @@ parceShift s = (r t0, r tf, desc)
 
 parceShifts :: String -> [(POSIXTime,POSIXTime,String)]
 parceShifts = map parceShift . lines'
+
+zoneTimes :: [(POSIXTime,POSIXTime,String)] -> IO [(ZonedTime,ZonedTime,String)]
+zoneTimes = mapM zoneTimes'
+  where
+    zoneTimes' (s,f,d) = do s' <- foo s
+                            f' <- foo f
+                            return (s',f',d)
+    foo = utcToLocalZonedTime . posixSecondsToUTCTime
