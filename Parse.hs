@@ -21,12 +21,12 @@ chopOn d t@(x:xs) = case stripPrefix d t of
                       Just t' -> ([],t')
                       Nothing -> first (x:) $ chopOn d xs
 
-parceShift :: String -> ((POSIXTime,POSIXTime),String)
-parceShift s = ((r t0, r tf), desc)
+parceShift :: String -> (POSIXTime,POSIXTime,String)
+parceShift s = (r t0, r tf, desc)
   where
     r = fromInteger . read
     (t0,s') = chopOn " " s
     (tf,desc) = chopOn " - " s'
 
-parceShifts :: String -> [((POSIXTime,POSIXTime),String)]
+parceShifts :: String -> [(POSIXTime,POSIXTime,String)]
 parceShifts = map parceShift . lines'
